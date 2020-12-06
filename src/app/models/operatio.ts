@@ -1,7 +1,7 @@
 import { Category } from './category';
 
 export class Operatio {
-
+    _id:string;
     concept:string;
     amount:number;
     date:Date;
