@@ -24,7 +24,6 @@ export class AccountPanelComponent implements OnInit {
 
   }
 
-
   public getUserById(){
     this._userService.getUserById(this.loginService.userLogged._id).subscribe(
       (result) => {
@@ -34,12 +33,16 @@ export class AccountPanelComponent implements OnInit {
       (error) => { console.log(error); }
    )}
 
+  public totalAccount(){
+    this.total = this.calculateAccount(this.type[0]) - this.calculateAccount(this.type[1]);
+  }
 
-   public totalAccount(){
+  public calculateAccount(type:string):number{
+    var total = 0;
     for(let i =0 ; i< this.user.operation.length;i++){
-       if(this.user.operation[i].type == this.type[0]){
-          this.total =  this.user.operation[i].amount;
-       }
-    }
+      if(this.user.operation[i].type == type)
+         total = total + this.user.operation[i].amount;
    }
+    return total;
+  }
 }
