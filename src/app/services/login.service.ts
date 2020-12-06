@@ -7,7 +7,7 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class LoginService {
-
+  
   URL_API:string = 'http://localhost:3000/api/user/login';
   userLoggedIn: boolean = false;
   userLogged: User;

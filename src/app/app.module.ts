@@ -11,6 +11,7 @@ import { LoadingComponent } from './components/shared/loading/loading.component'
 import { LoginComponent } from './components/account/login/login.component';
 import { CreateComponent } from './components/account/create/create.component';
 import { LoginService } from './services/login.service';
+import { AccountPanelComponent } from './components/account/account-panel/account-panel.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { LoginService } from './services/login.service';
     NavbarComponent,
     LoadingComponent,
     LoginComponent,
-    CreateComponent
+    CreateComponent,
+    AccountPanelComponent
   ],
   imports: [
     BrowserModule,
