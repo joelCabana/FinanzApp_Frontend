@@ -1,6 +1,10 @@
 <!--Navbar-->
-<nav class="navbar navbar-light justify-content-center">
+<nav class="navbar navbar-light">
     <a class="navbar-brand" href="# ">
-      <img src="../../../../assets/img/logo-finanzapp.jpg" width="210" height="40" alt="">
+      <img src="../../../../assets/img/logo-finanzapp.jpg" width="160" height="30" alt="">
     </a>
+    <form class="form-inline form-inline my-2 my-lg-0">
+      <a class="btn btn-outline-white  my-2 my-sm-0" [routerLink]="['login']" >Sign in</a>
+      <a class="btn btn-primary  my-2 my-sm-0 ml-4" [routerLink]="['createAccount']">Sign up</a>
+    </form>
 </nav>
