@@ -1,5 +1,5 @@
 .color-blue{
-    background-color:  #1353f3;
+    background-color:  #069ce2;
     color:  white;
 }
 
@@ -9,4 +9,9 @@
 .font-user{
     font-size: 120%;
     color:#c6cad1;
+}
+
+.sub-title{
+    font-size: 120%;
+    font-weight: bold;
 }
