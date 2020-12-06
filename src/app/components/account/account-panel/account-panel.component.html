@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row text-center">
             <div class="col-12 font-user">@{{loginService.userLogged.first_name}}</div>
-            <div class="col-12 font-amount">$110.00</div>
+            <div class="col-12 font-amount">{{total | currency:'USD'}}</div>
         </div>
         <div class="row mt-2">
             <div class="col-12 d-flex justify-content-center">
@@ -42,21 +42,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
+          <tr *ngFor="let item of user.operation">
+            <th scope="row"><i class="material-icons">attach_money</i></th>
             <td>
-                <div>buy clothes</div> 
-                <div>Shopping</div>
+                <div>{{item.concept}}</div> 
+                <div>{{item.category.name}}</div>
             </td>
-            <td>-500.00</td>
-          </tr>
-          <tr>
-            <th scope="row">1</th>
-            <td>
-                <div>buy clothes</div> 
-                <div>Shopping</div>
-            </td>
-            <td>+500.00</td>
+            <td>{{item.amount | currency:'USD'}}</td>
           </tr>
         </tbody>
       </table>

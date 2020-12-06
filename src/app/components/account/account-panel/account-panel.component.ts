@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/models/user';
 import { LoginService } from 'src/app/services/login.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -9,24 +10,36 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class AccountPanelComponent implements OnInit {
 
-  constructor(public loginService: LoginService,private _userService:UserService) { }
+ user:User;
+ total:number = 0;
+ type:Array<string> = ['entry','exit'];
+ 
+
+  constructor(public loginService: LoginService,private _userService:UserService) {
+    this.user = new User();
+    this.getUserById();
+   }
 
   ngOnInit(): void {
 
   }
 
-  //Carga la lista de los afiliados
+
   public getUserById(){
     this._userService.getUserById(this.loginService.userLogged._id).subscribe(
       (result) => {
-        
-        //  Object.assign(aux,e);
-       
-        });
+        this.user = result;
+        this.totalAccount();
       },
       (error) => { console.log(error); }
-    )
-  }
+   )}
 
 
+   public totalAccount(){
+    for(let i =0 ; i< this.user.operation.length;i++){
+       if(this.user.operation[i].type == this.type[0]){
+          this.total =  this.user.operation[i].amount;
+       }
+    }
+   }
 }
