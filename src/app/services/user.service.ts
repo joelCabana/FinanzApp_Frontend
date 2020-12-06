@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -20,4 +21,16 @@ export class UserService {
     }   
     return this._http.get(this.URL_API+id,httpOptions);
    }
+
+
+   updateUser(user:User){
+    console.log("INGRESO AL SERVICE UPDATE");
+    const httpOptions  = {
+      headers: new HttpHeaders({
+        'Content-Type':'application/json'
+      })
+    }; 
+    var body = JSON.stringify(user);
+    return this._http.put(this.URL_API+"/"+ user._id,body,httpOptions);;
+  }
 }
