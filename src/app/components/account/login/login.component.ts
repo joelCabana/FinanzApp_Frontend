@@ -12,7 +12,8 @@ export class LoginComponent implements OnInit {
 
   userform: User = new User();
   returnUrl: string;
- 
+  found:boolean = true;
+
   constructor(private route: ActivatedRoute,private router: Router,private loginService:LoginService) { }
 
   ngOnInit(): void {
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
                   //redirigimos a home o a pagina que llamo
                    this.router.navigateByUrl(this.returnUrl);
     } else {
-    //usuario no encontrado muestro mensaje en la vista
+        this.found = false;
    }
     },
     error => {
