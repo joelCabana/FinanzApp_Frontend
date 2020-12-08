@@ -5,6 +5,7 @@ import { User } from 'src/app/models/user';
 import { CategoryService } from 'src/app/services/category.service';
 import { LoginService } from 'src/app/services/login.service';
 import { UserService } from 'src/app/services/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account-panel',
@@ -32,7 +33,7 @@ export class AccountPanelComponent implements OnInit {
  totalWithdraw:number;
 
   constructor(public loginService: LoginService,private _userService:UserService,
-    private _categoryService:CategoryService) {
+    private _categoryService:CategoryService,private _toastr : ToastrService) {
     this.user = new User();
     this.isDeposit = true;
     this.isEdit = false;
@@ -90,6 +91,7 @@ export class AccountPanelComponent implements OnInit {
       (result)=>{
           this.getUserById();
           this.deleteFilter();
+          this._toastr.success("the operation was successful.","Success!");
       },
       (error)=>{
         console.log(error);

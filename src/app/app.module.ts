@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@Angular/forms';
 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -27,7 +30,14 @@ import { AccountPanelComponent } from './components/account/account-panel/accoun
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      progressBar :true,
+      progressAnimation : 'increasing',
+      timeOut:2000,
+      closeButton:true,
+    })
   ],
   providers: [LoginService],
   bootstrap: [AppComponent]

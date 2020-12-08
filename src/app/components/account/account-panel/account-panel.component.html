@@ -18,13 +18,13 @@
     <div class="form-row">
         <div class="col-md-3">
             <select id="category" class="form-control" name="category" (change)="filter()" [(ngModel)]="filterCategory" value='all'>
-              <option value="all" selected>All categories</option>
+              <option value="all" disabled>All categories</option>
               <option [value]="c._id" *ngFor="let c of categories">{{c.name}}</option>
             </select>
         </div>
         <div class="col-md-3">
             <select id="type" name="type" class="form-control" (change)="filter()" [(ngModel)]="filterType">
-              <option  value="all">All types</option>
+              <option  value="all" disabled>All types</option>
               <option [value]="t" *ngFor="let t of type">{{t}}</option>
             </select>
         </div>
@@ -35,6 +35,9 @@
     </div>
     
     <!--Table -->
+    <div *ngIf="!filterList.length" class="alert alert-primary mt-2" role="alert">
+      <h5> Oops! you have no records.</h5>
+    </div>
     <table class="table table-striped">
         <tbody>
           <tr *ngFor="let item of filterList">
