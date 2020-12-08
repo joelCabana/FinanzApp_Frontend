@@ -16,6 +16,7 @@ import { LoginComponent } from './components/account/login/login.component';
 import { CreateComponent } from './components/account/create/create.component';
 import { LoginService } from './services/login.service';
 import { AccountPanelComponent } from './components/account/account-panel/account-panel.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -36,7 +37,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     LoadingComponent,
     LoginComponent,
     CreateComponent,
-    AccountPanelComponent
+    AccountPanelComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
