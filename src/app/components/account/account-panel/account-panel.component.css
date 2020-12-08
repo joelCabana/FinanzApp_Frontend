@@ -18,4 +18,17 @@
 
 .font-title-table{
     font-size: 120%;
+    font-weight: bold;
 }
+
+
+.btn-primary-outline {
+    background-color: transparent;
+    border-color: #ccc;
+    color: white;
+    width:80px;
+    height:19px;
+    padding: 0;
+    margin: 0;
+    text-transform: capitalize;
+  }

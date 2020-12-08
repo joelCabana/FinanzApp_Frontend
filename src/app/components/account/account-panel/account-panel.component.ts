@@ -19,11 +19,23 @@ export class AccountPanelComponent implements OnInit {
  categories:Array<Category> = new Array<Category>();
  operatio:Operatio = new Operatio();
  isDeposit:boolean;
+ isEdit:boolean;
+ 
+ idSelected:string;
+
+ filterCategory:string ="all";
+ filterType:string = "all";
+ filterList:Array<Operatio>;
+ ALL:string = "all";
+
+ totaldeposit:number;
+ totalWithdraw:number;
 
   constructor(public loginService: LoginService,private _userService:UserService,
     private _categoryService:CategoryService) {
     this.user = new User();
     this.isDeposit = true;
+    this.isEdit = false;
     this.getUserById();
     this.getCategories();
    }
@@ -31,11 +43,12 @@ export class AccountPanelComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
+  
   public getUserById(){
     this._userService.getUserById(this.loginService.userLogged._id).subscribe(
       (result) => {
         this.user = result;
+        this.filterList = this.user.operation;
         this.totalAccount();
       },
       (error) => { console.log(error); }
@@ -43,6 +56,8 @@ export class AccountPanelComponent implements OnInit {
 
   public totalAccount(){
     this.total = this.calculateAccount(this.type[0]) - this.calculateAccount(this.type[1]);
+    this.totaldeposit = this.calculateAccount(this.type[0]);
+    this.totalWithdraw = this.calculateAccount(this.type[1]);
   }
 
   public calculateAccount(type:string):number{
@@ -63,7 +78,6 @@ export class AccountPanelComponent implements OnInit {
           this.categories.push(c);
           c = new Category();
           });
-
           console.log(this.categories);
       },
       (error) => { console.log(error); }
@@ -75,6 +89,7 @@ export class AccountPanelComponent implements OnInit {
     this._userService.updateUser(this.user).subscribe(
       (result)=>{
           this.getUserById();
+          this.deleteFilter();
       },
       (error)=>{
         console.log(error);
@@ -88,6 +103,7 @@ export class AccountPanelComponent implements OnInit {
     this.operatio.type = this.type[type];
     this.user.operation.push(this.operatio);
     this.updateUser();
+    this.deleteFilter();
     this.operatio = new Operatio();
   }
 
@@ -95,5 +111,57 @@ export class AccountPanelComponent implements OnInit {
     this.operatio = new Operatio();
   }
 
+  selectOperatio(item){
+    let auxOperatio = new Operatio();
+    Object.assign(auxOperatio, item);
+    this.operatio = auxOperatio;
+    this.idSelected = this.operatio.category._id; 
+  }
+
+  updateOperatio(operation:Operatio){
+    this.operatio.category._id = this.idSelected;
+    var indice = this.user.operation.findIndex((element)=> element._id == operation._id);
+    this.user.operation.splice(indice,1,operation);
+    this.updateUser();
+  }
+
+  deleteOperation(operation:Operatio){
+    var indice = this.user.operation.findIndex((element)=> element._id == operation._id);
+    this.user.operation.splice(indice,1);
+    this.updateUser();
+  }
+
+  filter(){
+    this.filterList = new Array<Operatio>();
+    this.filterList = this.user.operation;
+    if(this.filterCategory != this.ALL && this.filterType == this.ALL){
+      this.filterByCategory();
+    }else{
+      if(this.filterType != this.ALL && this.filterCategory == this.ALL){
+        this.filterByType();
+      }else {
+        this.filterByCategoryAndType();
+      }
+    }
+  }
+
+  filterByCategory(){
+    this.filterList = this.filterList.filter(operatio => operatio.category._id === this.filterCategory);
+  }
+
+  filterByType(){
+    this.filterList = this.filterList.filter(operatio => operatio.type === this.filterType);
+  }
+
+  filterByCategoryAndType(){
+    this.filterList = this.filterList.filter(operatio => operatio.category._id === this.filterCategory && operatio.type === this.filterType);
+  }
+
+  deleteFilter(){
+    this.filterType ="all";
+    this.filterCategory ="all";
+    this.filterList = new Array<Operatio>();
+    this.filterList = this.user.operation;
+  }
 
 }
