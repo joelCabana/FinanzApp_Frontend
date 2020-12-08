@@ -6,6 +6,7 @@ import { CategoryService } from 'src/app/services/category.service';
 import { LoginService } from 'src/app/services/login.service';
 import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-panel',
@@ -33,8 +34,16 @@ export class AccountPanelComponent implements OnInit {
  totaldeposit:number;
  totalWithdraw:number;
 
+ returnUrl: string;
+
   constructor(public loginService: LoginService,private _userService:UserService,
-    private _categoryService:CategoryService,private _toastr : ToastrService) {
+    private _categoryService:CategoryService,private _toastr : ToastrService,
+    private route: ActivatedRoute,private router: Router) {
+
+      if(!this.loginService.userLoggedIn){
+        this.router.navigateByUrl('/home')
+      }
+  
     this.user = new User();
     this.category ="all";
     this.isDeposit = true;
@@ -42,8 +51,11 @@ export class AccountPanelComponent implements OnInit {
     this.loading = true;
     this.getUserById();
     this.getCategories();
+
+   
    }
 
+   
   ngOnInit(): void {
 
   }
