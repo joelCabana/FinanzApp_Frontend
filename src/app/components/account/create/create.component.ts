@@ -13,10 +13,13 @@ export class CreateComponent implements OnInit {
   created:boolean;
   loading:boolean;
 
+  userExists:boolean;
+
   constructor(private userService:UserService) {
     this.user = new User();
     this.created = false;
     this.loading = false;
+    this.userExists = false;
    }
 
   ngOnInit(): void {
@@ -26,9 +29,14 @@ export class CreateComponent implements OnInit {
     this.loading = true;
     this.userService.createUser(this.user).subscribe(
       (result) =>{
-           this.reset()
-           this.created = true;
-           this.loading = false;
+        if(result['status'] == 1){
+              this.userExists = true;
+        }else{
+          this.reset()
+          this.created = true;
+          this.loading = false;
+        }
+          console.log(result['status']);
       },
       error=>{
         console.log(error);

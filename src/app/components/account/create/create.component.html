@@ -46,6 +46,9 @@
                     <div *ngIf="created" class="alert alert-success" role="alert">
                         Great!, you can start session!
                     </div>
+                    <div *ngIf="userExists" class="alert alert-danger" role="alert">
+                        ups! the account with the email already exists.
+                      </div>
                     <!--button create account-->
                     <div class="form-group">
                         <button class="btn btn-primary btn-block" (click)="createUser()" type="button"  [disabled]="accountForm.invalid">Create account</button>
@@ -55,5 +58,3 @@
         </div>
     </div>
 </div>
-<!--footer-->
-<app-footer></app-footer>
