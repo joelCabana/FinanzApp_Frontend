@@ -1,1 +1,34 @@
-<p>create works!</p>
+<div class="pb-5 pt-4">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12 text-center mt-5">
+                <h4>Hey! create your account in seconds</h4>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12 d-flex justify-content-center">
+                <form name="form" class="col-md-4 mb-5">
+                    <div class="form-group">
+                        <input type="text" class="form-control" [(ngModel)]="user.first_name" placeholder="First mame" name="first_mame" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" [(ngModel)]="user.last_name" placeholder="Last mame" name="last_mame" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" [(ngModel)]="user.email" placeholder="e-mail" name="emailLogin" 
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/>
+                    </div>
+                    <div class="form-group d-flex">
+                        <input type="password" class="form-control float-right" [(ngModel)]="user.password"  placeholder="password" name="password" required>
+                    </div>
+                    <div *ngIf="created" class="alert alert-success" role="alert">
+                        Great!, you can start session!
+                      </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" (click)="createUser()" type="button">Create account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
