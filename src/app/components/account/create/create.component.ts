@@ -11,26 +11,32 @@ export class CreateComponent implements OnInit {
 
   user:User;
   created:boolean;
+  loading:boolean;
 
   constructor(private userService:UserService) {
     this.user = new User();
     this.created = false;
+    this.loading = false;
    }
 
   ngOnInit(): void {
   }
 
   createUser(){
+    this.loading = true;
     this.userService.createUser(this.user).subscribe(
       (result) =>{
            this.reset()
            this.created = true;
+           this.loading = false;
       },
       error=>{
         console.log(error);
         alert("ERROR");
+        this.loading = false;
       }
     );
+    this.loading = false;
   }
 
   reset(){

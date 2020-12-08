@@ -16,9 +16,11 @@
                     <div class="form-group d-flex">
                         <input type="password" class="form-control float-right" placeholder="password" name="password" [(ngModel)]="userform.password">
                     </div>
+                    <app-loading *ngIf="loading"></app-loading>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block" (click)="login()">login</button>
                     </div>
+                    
                     <div class="text-danger font-weight-bold " *ngIf="!found">
                         ups! your email or password are incorrect.
                       </div>

@@ -1,136 +1,139 @@
-<div class="color-blue pb-5 pt-4">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-12 font-user">Available money</div>
-            <div class="col-12 font-amount">{{total | currency:'USD'}}</div>
+<app-loading *ngIf="loading"></app-loading>
+<div *ngIf="!loading">
+  <div class="color-blue pb-5 pt-4">
+      <div class="container">
+          <div class="row text-center">
+              <div class="col-12 font-user">Available money</div>
+              <div class="col-12 font-amount">{{total | currency:'USD'}}</div>
+          </div>
+          <div class="row mt-2">
+              <div class="col-12 d-flex justify-content-center">
+                  <button class="btn  btn-primary-outline" data-toggle="modal" data-target="#DepositAndWithdraw" (click)="isDeposit = true">Deposit</button>
+                  <button class="btn btn-primary-outline ml-4" data-toggle="modal" data-target="#DepositAndWithdraw" (click)="isDeposit = false">Withdraw</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container mt-3">
+      <label class="sub-title">Your activity</label>
+      <hr class="mt-0 mb-0">
+      <div class="form-row">
+          <div class="col-md-3">
+              <select id="category" class="form-control" name="category" (change)="filter()" [(ngModel)]="filterCategory" value='all'>
+                <option value="all" disabled>All categories</option>
+                <option [value]="c._id" *ngFor="let c of categories">{{c.name}}</option>
+              </select>
+          </div>
+          <div class="col-md-3">
+              <select id="type" name="type" class="form-control" (change)="filter()" [(ngModel)]="filterType">
+                <option  value="all" disabled>All types</option>
+                <option [value]="t" *ngFor="let t of type">{{t}}</option>
+              </select>
+          </div>
+          <div class="col-md-3">
+          <button class="btn btn-outline-primary" (click)="deleteFilter()">Delete Filter</button>
+          </div>
+          
+      </div>
+      
+      <!--Table -->
+      <div *ngIf="!filterList.length" class="alert alert-primary mt-2" role="alert">
+        <h5> Oops! you have no records.</h5>
+      </div>
+      <table class="table table-striped">
+          <tbody>
+            <tr *ngFor="let item of filterList">
+              <th scope="row" *ngIf="item.type == type[0]"><i class="material-icons">call_received</i></th>
+              <th scope="row" *ngIf="item.type ==  type[1]"><i class="material-icons">call_made</i></th>
+              <td>
+                  <div class="font-title-table">{{item.concept}}</div> 
+                  <div>{{item.category.name}}</div>
+              </td>
+              <td>
+                <div class="font-title-table" *ngIf="item.type == type[0]">+ {{item.amount | currency:'USD'}}</div>
+                <div class="font-title-table" *ngIf="item.type == type[1]">- {{item.amount | currency:'USD'}}</div>
+                <div>{{item.date | date: 'dd/MM/yyyy'}}</div>
+              </td>
+              <td class="font-title-table" *ngIf="item.type == type[1]"> - {{item.amount | currency:'USD'}}</td>
+              <td>
+                <button class="btn btn-secondary btn-sm" (click)="selectOperatio(item)" data-toggle="modal" data-target="#DepositAndWithdrawEdit">
+                  <i class="material-icons">edit</i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+
+
+  <!--Modal Deposit and Withdraw-->
+  <div class="modal fade" id="DepositAndWithdraw" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"  *ngIf="!isDeposit" >Withdraw</h5>
+          <h5 class="modal-title" id="exampleModalLabel" *ngIf="isDeposit">Deposit</h5>
+
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <div class="row mt-2">
-            <div class="col-12 d-flex justify-content-center">
-                <button class="btn  btn-primary-outline" data-toggle="modal" data-target="#DepositAndWithdraw" (click)="isDeposit = true">Deposit</button>
-                <button class="btn btn-primary-outline ml-4" data-toggle="modal" data-target="#DepositAndWithdraw" (click)="isDeposit = false">Withdraw</button>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <input type="text"  [(ngModel)]="operatio.amount" class="form-control"  id="amount" name="amount"  placeholder="Amount">
             </div>
+            <div class="form-group">
+              <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concept">
+            </div>
+            <div class="form-group">
+              <select class="form-control" name="category" id="category" [(ngModel)]="operatio.category">
+                <option disabled selected >Select a category</option>
+                <option *ngFor="let c of categories" [ngValue]="c" >{{c.name}}</option>
+              </select>
+            </div>
+          </form>
         </div>
-    </div>
-</div>
-<div class="container mt-3">
-    <label class="sub-title">Your activity</label>
-    <hr class="mt-0 mb-0">
-    <div class="form-row">
-        <div class="col-md-3">
-            <select id="category" class="form-control" name="category" (change)="filter()" [(ngModel)]="filterCategory" value='all'>
-              <option value="all" disabled>All categories</option>
-              <option [value]="c._id" *ngFor="let c of categories">{{c.name}}</option>
-            </select>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Close</button>
+          <button type="button" class="btn btn-primary"   *ngIf="isDeposit" (click)="depositOrwithdraw(0)">Deposit</button>
+          <button type="button" class="btn btn-primary"   *ngIf="!isDeposit" (click)="depositOrwithdraw(1)">Withdraw</button>
         </div>
-        <div class="col-md-3">
-            <select id="type" name="type" class="form-control" (change)="filter()" [(ngModel)]="filterType">
-              <option  value="all" disabled>All types</option>
-              <option [value]="t" *ngFor="let t of type">{{t}}</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-         <button class="btn btn-outline-primary" (click)="deleteFilter()">Delete Filter</button>
-        </div>
-        
-    </div>
-    
-    <!--Table -->
-    <div *ngIf="!filterList.length" class="alert alert-primary mt-2" role="alert">
-      <h5> Oops! you have no records.</h5>
-    </div>
-    <table class="table table-striped">
-        <tbody>
-          <tr *ngFor="let item of filterList">
-            <th scope="row" *ngIf="item.type == type[0]"><i class="material-icons">call_received</i></th>
-            <th scope="row" *ngIf="item.type ==  type[1]"><i class="material-icons">call_made</i></th>
-            <td>
-                <div class="font-title-table">{{item.concept}}</div> 
-                <div>{{item.category.name}}</div>
-            </td>
-            <td>
-              <div class="font-title-table" *ngIf="item.type == type[0]">+ {{item.amount | currency:'USD'}}</div>
-              <div class="font-title-table" *ngIf="item.type == type[1]">- {{item.amount | currency:'USD'}}</div>
-              <div>{{item.date | date: 'dd/MM/yyyy'}}</div>
-            </td>
-            <td class="font-title-table" *ngIf="item.type == type[1]"> - {{item.amount | currency:'USD'}}</td>
-            <td>
-              <button class="btn btn-secondary btn-sm" (click)="selectOperatio(item)" data-toggle="modal" data-target="#DepositAndWithdrawEdit">
-                 <i class="material-icons">edit</i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-</div>
-
-
-<!--Modal Deposit and Withdraw-->
-<div class="modal fade" id="DepositAndWithdraw" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"  *ngIf="!isDeposit" >Withdraw</h5>
-        <h5 class="modal-title" id="exampleModalLabel" *ngIf="isDeposit">Deposit</h5>
-
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <input type="text"  [(ngModel)]="operatio.amount" class="form-control"  id="amount" name="amount"  placeholder="Amount">
-          </div>
-          <div class="form-group">
-            <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concept">
-          </div>
-          <div class="form-group">
-            <select class="form-control" name="category" id="category" [(ngModel)]="operatio.category">
-              <option disabled selected >Select a category</option>
-              <option *ngFor="let c of categories" [ngValue]="c" >{{c.name}}</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Close</button>
-        <button type="button" class="btn btn-primary"   *ngIf="isDeposit" (click)="depositOrwithdraw(0)">Deposit</button>
-        <button type="button" class="btn btn-primary"   *ngIf="!isDeposit" (click)="depositOrwithdraw(1)">Withdraw</button>
       </div>
     </div>
   </div>
-</div>
 
 
-<!--Modal Edit-->
-<div class="modal fade" id="DepositAndWithdrawEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <input type="text"  [(ngModel)]="operatio.amount" class="form-control"  id="amount" name="amount"  placeholder="Amount">
-          </div>
-          <div class="form-group">
-            <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concept">
-          </div>
-          <div class="form-group">
-            <select   [(ngModel)]="idSelected" class="form-control" name="category"  id="category" >
-              <option *ngFor="let category of categories" [ngValue]="category._id">{{category.name}}</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Close</button>
-        <button type="button" class="btn btn-outline-danger" (click)="deleteOperation(operatio)">Delete</button>
-        <button type="button" class="btn btn-primary" (click)="updateOperatio(operatio)">Update</button>
+  <!--Modal Edit-->
+  <div class="modal fade" id="DepositAndWithdrawEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <input type="text"  [(ngModel)]="operatio.amount" class="form-control"  id="amount" name="amount"  placeholder="Amount">
+            </div>
+            <div class="form-group">
+              <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concept">
+            </div>
+            <div class="form-group">
+              <select   [(ngModel)]="idSelected" class="form-control" name="category"  id="category" >
+                <option *ngFor="let category of categories" [ngValue]="category._id">{{category.name}}</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Close</button>
+          <button type="button" class="btn btn-outline-danger" (click)="deleteOperation(operatio)">Delete</button>
+          <button type="button" class="btn btn-primary" (click)="updateOperatio(operatio)">Update</button>
+        </div>
       </div>
     </div>
   </div>

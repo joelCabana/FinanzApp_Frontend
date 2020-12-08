@@ -13,27 +13,31 @@ export class LoginComponent implements OnInit {
   userform: User = new User();
   returnUrl: string;
   found:boolean = true;
+  loading:boolean;
 
-  constructor(private route: ActivatedRoute,private router: Router,private loginService:LoginService) { }
+  constructor(private route: ActivatedRoute,private router: Router,private loginService:LoginService) { 
+    this.loading = false;
+  }
 
   ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'accountPanel'; 
   }
 
   login() {
+    this.loading = true;
     this.loginService.login(this.userform.email, this.userform.password)
     .subscribe( 
                (result) => {
                 var user = result;
                 console.log(user);
                 if (user.status == 1){
-                  //vbles para mostrar-ocultar cosas en el header
                   this.loginService.userLoggedIn = true;
                   this.loginService.userLogged = user;
-                  //redirigimos a home o a pagina que llamo
+                  this.loading = false;
                    this.router.navigateByUrl(this.returnUrl);
     } else {
         this.found = false;
+        this.loading = false;
    }
     },
     error => {

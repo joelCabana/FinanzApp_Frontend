@@ -21,7 +21,7 @@ export class AccountPanelComponent implements OnInit {
  operatio:Operatio = new Operatio();
  isDeposit:boolean;
  isEdit:boolean;
- 
+ loading:boolean;
  idSelected:string;
 
  filterCategory:string ="all";
@@ -37,6 +37,7 @@ export class AccountPanelComponent implements OnInit {
     this.user = new User();
     this.isDeposit = true;
     this.isEdit = false;
+    this.loading = true;
     this.getUserById();
     this.getCategories();
    }
@@ -51,6 +52,7 @@ export class AccountPanelComponent implements OnInit {
         this.user = result;
         this.filterList = this.user.operation;
         this.totalAccount();
+        this.loading = false;
       },
       (error) => { console.log(error); }
    )}
