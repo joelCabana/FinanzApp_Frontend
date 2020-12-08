@@ -42,7 +42,7 @@
       </div>
       <table class="table table-striped">
           <tbody>
-            <tr *ngFor="let item of filterList">
+            <tr *ngFor="let item of filterList.reverse()">
               <th scope="row" *ngIf="item.type == type[0]"><i class="material-icons">call_received</i></th>
               <th scope="row" *ngIf="item.type ==  type[1]"><i class="material-icons">call_made</i></th>
               <td>
@@ -54,7 +54,6 @@
                 <div class="font-title-table" *ngIf="item.type == type[1]">- {{item.amount | currency:'USD'}}</div>
                 <div>{{item.date | date: 'dd/MM/yyyy'}}</div>
               </td>
-              <td class="font-title-table" *ngIf="item.type == type[1]"> - {{item.amount | currency:'USD'}}</td>
               <td>
                 <button class="btn btn-secondary btn-sm" (click)="selectOperatio(item)" data-toggle="modal" data-target="#DepositAndWithdrawEdit">
                   <i class="material-icons">edit</i>
@@ -64,7 +63,6 @@
           </tbody>
         </table>
   </div>
-
 
   <!--Modal Deposit and Withdraw-->
   <div class="modal fade" id="DepositAndWithdraw" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -79,15 +77,15 @@
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form  #generalForm="ngForm">
             <div class="form-group">
-              <input type="text"  [(ngModel)]="operatio.amount" class="form-control"  id="amount" name="amount"  placeholder="Amount">
+              <input type="text" (keypress)="numberOnly($event)"  [(ngModel)]="operatio.amount" class="form-control"  id="amount" name="amount"  placeholder="Amount" required>
             </div>
             <div class="form-group">
-              <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concept">
+              <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concept" required>
             </div>
             <div class="form-group">
-              <select class="form-control" name="category" id="category" [(ngModel)]="operatio.category">
+              <select class="form-control" name="category" id="category" [(ngModel)]="operatio.category" required>
                 <option disabled selected >Select a category</option>
                 <option *ngFor="let c of categories" [ngValue]="c" >{{c.name}}</option>
               </select>
@@ -96,8 +94,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Close</button>
-          <button type="button" class="btn btn-primary"   *ngIf="isDeposit" (click)="depositOrwithdraw(0)">Deposit</button>
-          <button type="button" class="btn btn-primary"   *ngIf="!isDeposit" (click)="depositOrwithdraw(1)">Withdraw</button>
+          <button type="button" class="btn btn-primary"  [disabled]="generalForm.invalid"  *ngIf="isDeposit" (click)="depositOrwithdraw(0)">Deposit</button>
+          <button type="button" class="btn btn-primary"   [disabled]="generalForm.invalid" *ngIf="!isDeposit" (click)="depositOrwithdraw(1)">Withdraw</button>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import {FormsModule} from '@Angular/forms';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import {MatCurrencyFormatModule} from 'mat-currency-format';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,7 +38,9 @@ import { AccountPanelComponent } from './components/account/account-panel/accoun
       progressAnimation : 'increasing',
       timeOut:2000,
       closeButton:true,
-    })
+    }),
+    MatCurrencyFormatModule
+
   ],
   providers: [LoginService],
   bootstrap: [AppComponent]

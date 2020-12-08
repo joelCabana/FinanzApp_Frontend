@@ -168,4 +168,17 @@ export class AccountPanelComponent implements OnInit {
     this.filterList = this.user.operation;
   }
 
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
+
+  updateUSAmount(event) { 
+    this.operatio.amount = event.target.value;
+   }
+
 }
