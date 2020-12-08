@@ -23,6 +23,7 @@ export class AccountPanelComponent implements OnInit {
  isEdit:boolean;
  loading:boolean;
  idSelected:string;
+ category:string;
 
  filterCategory:string ="all";
  filterType:string = "all";
@@ -35,6 +36,7 @@ export class AccountPanelComponent implements OnInit {
   constructor(public loginService: LoginService,private _userService:UserService,
     private _categoryService:CategoryService,private _toastr : ToastrService) {
     this.user = new User();
+    this.category ="all";
     this.isDeposit = true;
     this.isEdit = false;
     this.loading = true;
@@ -81,7 +83,6 @@ export class AccountPanelComponent implements OnInit {
           this.categories.push(c);
           c = new Category();
           });
-          console.log(this.categories);
       },
       (error) => { console.log(error); }
    )
@@ -97,6 +98,7 @@ export class AccountPanelComponent implements OnInit {
       },
       (error)=>{
         console.log(error);
+        this._toastr.error("the operation was not performed","Error!");
       }
     );
     this.operatio = new Operatio();
@@ -105,6 +107,8 @@ export class AccountPanelComponent implements OnInit {
   depositOrwithdraw(type:number){
     this.operatio.date = new Date();
     this.operatio.type = this.type[type];
+    this.operatio.category = new Category();
+    this.operatio.category._id = this.category;
     this.user.operation.push(this.operatio);
     this.updateUser();
     this.deleteFilter();
@@ -113,6 +117,7 @@ export class AccountPanelComponent implements OnInit {
 
   reset(){
     this.operatio = new Operatio();
+    this.category = "all";
   }
 
   selectOperatio(item){

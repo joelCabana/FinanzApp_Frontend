@@ -42,7 +42,7 @@
           </div>
           <!--button delete filter-->
           <div class="col-md-3">
-          <button class="btn btn-outline-primary" (click)="deleteFilter()">Delete Filter</button>
+          <button class="btn btn-link" (click)="deleteFilter()">Delete Filter</button>
           </div>
       </div>
       <!-- end filter form-->
@@ -107,10 +107,11 @@
             </div>
             <!--category-->
             <div class="form-group">
-              <select class="form-control" name="category" id="category" [(ngModel)]="operatio.category" required>
-                <option disabled selected >Select a category</option>
-                <option *ngFor="let c of categories" [ngValue]="c" >{{c.name}}</option>
+              <select class="form-control" name="category" id="category" [(ngModel)]="category" required>
+                <option value="all" disabled selected>Select a category</option>
+                <option *ngFor="let c of categories" [ngValue]="c._id" >{{c.name}}</option>
               </select>
+              {{category}}
             </div>
           </form>
           <!--end Form Deposit and Withdraw-->
