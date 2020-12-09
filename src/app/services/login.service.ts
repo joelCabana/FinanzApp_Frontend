@@ -30,6 +30,7 @@ export class LoginService {
   public logout() {
     this.userLogged = new User();
     this.userLoggedIn = false;
+    sessionStorage.removeItem("token");
   } 
 
   getToken():string{
