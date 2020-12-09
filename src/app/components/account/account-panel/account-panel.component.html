@@ -55,7 +55,7 @@
       <!--table Activity-->
       <table class="table table-striped">
           <tbody>
-            <tr *ngFor="let item of filterList.reverse()">
+            <tr *ngFor="let item of filterList.reverse().slice(0,5)">
               <th scope="row" *ngIf="item.type == type[0]"><i class="material-icons">call_received</i></th>
               <th scope="row" *ngIf="item.type ==  type[1]"><i class="material-icons">call_made</i></th>
               <td>
