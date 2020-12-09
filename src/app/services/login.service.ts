@@ -31,4 +31,9 @@ export class LoginService {
     this.userLogged = new User();
     this.userLoggedIn = false;
   } 
+
+  getToken():string{
+    return sessionStorage.getItem("token");
+    }
+   
 }

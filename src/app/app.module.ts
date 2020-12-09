@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@Angular/forms';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -17,6 +19,7 @@ import { CreateComponent } from './components/account/create/create.component';
 import { LoginService } from './services/login.service';
 import { AccountPanelComponent } from './components/account/account-panel/account-panel.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -54,7 +57,14 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     }),
     CurrencyMaskModule,
   ],
-  providers: [LoginService, { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }],
+  providers: [LoginService, 
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
+    {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true
+   }
+   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

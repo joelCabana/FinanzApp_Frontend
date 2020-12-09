@@ -29,11 +29,11 @@ export class LoginComponent implements OnInit {
     .subscribe( 
                (result) => {
                 var user = result;
-                console.log(user);
                 if (user.status == 1){
                   this.loginService.userLoggedIn = true;
                   this.loginService.userLogged = user;
                   this.loading = false;
+                  sessionStorage.setItem("token", user.token);
                    this.router.navigateByUrl(this.returnUrl);
     } else {
         this.found = false;
@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
    }
     },
     error => {
-      console.log("error en conexion");
       console.log(error);
     });
   }
