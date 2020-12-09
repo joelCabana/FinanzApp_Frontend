@@ -4,7 +4,7 @@
         <div class="row text-center">
             <!--title-->
             <div class="col-md-12 text-center mt-5">
-                <h4>Hi! To continue, enter your e-mail and password</h4>
+                <h4>¡Hola! Para continuar, ingrese su correo electrónico y contraseña</h4>
             </div>
         </div>
         <div class="row mt-2">
@@ -13,22 +13,22 @@
                 <form name="form" class="col-md-4 mb-5">
                     <!--email-->
                     <div class="form-group">
-                        <input type="email" class="form-control" placeholder="e-mail" name="emailLogin" 
+                        <input type="email" class="form-control" placeholder="Correo electronico" name="emailLogin" 
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"   [(ngModel)]="userform.email" />
                     </div>
                     <!--password-->
                     <div class="form-group d-flex">
-                        <input type="password" class="form-control float-right" placeholder="password" name="password" [(ngModel)]="userform.password">
+                        <input type="password" class="form-control float-right" placeholder="Contraseña" name="password" [(ngModel)]="userform.password">
                     </div>
                     <!--loading-->
                     <app-loading *ngIf="loading"></app-loading>
                     <!--login button-->
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block" (click)="login()">login</button>
+                        <button class="btn btn-primary btn-block" (click)="login()">Ingresar</button>
                     </div>
                     <!--message incorrect-->
                     <div class="text-danger font-weight-bold " *ngIf="!found">
-                        ups! your email or password are incorrect.
+                        ¡Ups! su correo electrónico o contraseña son incorrectos.
                       </div>
                 </form>
             </div>

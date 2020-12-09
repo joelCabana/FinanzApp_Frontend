@@ -17,7 +17,7 @@ export class AccountPanelComponent implements OnInit {
 
  user:User;
  total:number = 0;
- type:Array<string> = ['entry','exit'];
+ type:Array<string> = ['deposito','retiro'];
  categories:Array<Category> = new Array<Category>();
  operatio:Operatio = new Operatio();
  isDeposit:boolean;

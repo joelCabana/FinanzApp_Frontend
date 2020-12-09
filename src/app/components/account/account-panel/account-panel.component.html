@@ -5,7 +5,7 @@
       <div class="container">
           <div class="row text-center">
               <!--title-->
-              <div class="col-12 font-user">Available money</div>
+              <div class="col-12 font-user">Dinero disponible</div>
                <!--total in account-->
               <div class="col-12 font-amount">{{total | currency:'USD'}}</div>
           </div>
@@ -13,36 +13,36 @@
             <!--operations-->
               <div class="col-12 d-flex justify-content-center">
                   <!--Deposit -->
-                  <button class="btn  btn-primary-outline" data-toggle="modal" data-target="#DepositAndWithdraw" (click)="isDeposit = true">Deposit</button>
+                  <button class="btn  btn-primary-outline" data-toggle="modal" data-target="#DepositAndWithdraw" (click)="isDeposit = true">Depositar</button>
                    <!--Withdraw -->
-                  <button class="btn btn-primary-outline ml-4" data-toggle="modal" data-target="#DepositAndWithdraw" (click)="isDeposit = false">Withdraw</button>
+                  <button class="btn btn-primary-outline ml-4" data-toggle="modal" data-target="#DepositAndWithdraw" (click)="isDeposit = false">Retirar</button>
               </div>
           </div>
       </div>
   </div>
   <!--your activity-->
   <div class="container mt-3">
-      <label class="sub-title">Your activity</label>
+      <label class="sub-title">Tu actividad</label>
       <hr class="mt-0 mb-0">
       <!--filter form-->
       <div class="form-row">
           <div class="col-md-3">
             <!--filter by category-->
               <select id="category" class="form-control" name="category" (change)="filter()" [(ngModel)]="filterCategory" value='all'>
-                <option value="all" disabled>All categories</option>
-                <option [value]="c._id" *ngFor="let c of categories">{{c.name}}</option>
+                <option value="all" disabled>Todas las categorias</option>
+                <option [value]="c._id" *ngFor="let c of categories">{{c.name | titlecase}}</option>
               </select>
           </div>
           <!--filter by type-->
           <div class="col-md-3">
               <select id="type" name="type" class="form-control" (change)="filter()" [(ngModel)]="filterType">
-                <option  value="all" disabled>All types</option>
-                <option [value]="t" *ngFor="let t of type">{{t}}</option>
+                <option  value="all" disabled>Todos los tipos</option>
+                <option [value]="t" *ngFor="let t of type">{{t | titlecase}}</option>
               </select>
           </div>
           <!--button delete filter-->
           <div class="col-md-3">
-          <button class="btn btn-link" (click)="deleteFilter()">Delete Filter</button>
+          <button class="btn btn-link" (click)="deleteFilter()">Borrar filtros</button>
           </div>
       </div>
       <!-- end filter form-->
@@ -50,7 +50,7 @@
       <!--Activity -->
       <!--message empty table-->
       <div *ngIf="!filterList.length" class="alert alert-primary mt-2" role="alert">
-        <h5> Oops! you have no records.</h5>
+        <h5> ¡Ups! no tienes registros.</h5>
       </div>
       <!--table Activity-->
       <table class="table table-striped">
@@ -60,8 +60,8 @@
               <th scope="row" *ngIf="item.type ==  type[1]"><i class="material-icons">call_made</i></th>
               <td>
                 <!-- concept and category name-->
-                  <div class="font-title-table">{{item.concept}}</div> 
-                  <div>{{item.category.name}}</div>
+                  <div class="font-title-table">{{item.concept | titlecase}}</div> 
+                  <div>{{item.category.name | titlecase}}</div>
               </td>
               <td>
                 <!--amount and date-->
@@ -87,8 +87,8 @@
       <div class="modal-content">
         <div class="modal-header">
           <!--title-->
-          <h5 class="modal-title" id="exampleModalLabel"  *ngIf="!isDeposit" >Withdraw</h5>
-          <h5 class="modal-title" id="exampleModalLabel" *ngIf="isDeposit">Deposit</h5>
+          <h5 class="modal-title" id="exampleModalLabel"  *ngIf="!isDeposit" >Retirar</h5>
+          <h5 class="modal-title" id="exampleModalLabel" *ngIf="isDeposit">Depositar</h5>
 
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -103,12 +103,12 @@
             </div>
             <!--concept-->
             <div class="form-group">
-              <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concept" required>
+              <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concepto" required>
             </div>
             <!--category-->
             <div class="form-group">
               <select class="form-control" name="category" id="category" [(ngModel)]="category" required>
-                <option value="all" disabled selected>Select a category</option>
+                <option value="all" disabled selected>Seleccione una categoría</option>
                 <option *ngFor="let c of categories" [ngValue]="c._id" >{{c.name}}</option>
               </select>
             </div>
@@ -120,9 +120,9 @@
           <!--close-->
           <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Close</button>
           <!--Deposit-->
-          <button type="button" class="btn btn-primary"  [disabled]="generalForm.invalid"  *ngIf="isDeposit" (click)="depositOrwithdraw(0)">Deposit</button>
+          <button type="button" class="btn btn-primary"  [disabled]="generalForm.invalid"  *ngIf="isDeposit" (click)="depositOrwithdraw(0)">Depositar</button>
            <!--Withdraw-->
-          <button type="button" class="btn btn-primary"   [disabled]="generalForm.invalid" *ngIf="!isDeposit" (click)="depositOrwithdraw(1)">Withdraw</button>
+          <button type="button" class="btn btn-primary"   [disabled]="generalForm.invalid" *ngIf="!isDeposit" (click)="depositOrwithdraw(1)">Retirar</button>
         </div>
       </div>
     </div>
@@ -135,7 +135,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <!--title-->
-          <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -145,11 +145,11 @@
           <form>
             <!--amount-->
             <div class="form-group">
-              <input type="text" currencyMask min="1.00" [(ngModel)]="operatio.amount" class="form-control"  id="amount" name="amount"  placeholder="Amount">
+              <input type="text" currencyMask min="1.00" [(ngModel)]="operatio.amount" class="form-control"  id="amount" name="amount" placeholder="$ 0.00">
             </div>
              <!--concept-->
             <div class="form-group">
-              <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concept">
+              <input type="text" [(ngModel)]="operatio.concept" class="form-control"  id="concept" name="concept" placeholder="Concepto">
             </div>
              <!--category-->
             <div class="form-group">
@@ -162,11 +162,11 @@
          <!--button action-->
         <div class="modal-footer">
            <!--close-->
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Cancelar</button>
            <!--delete-->
-          <button type="button" class="btn btn-outline-danger" (click)="deleteOperation(operatio)">Delete</button>
+          <button type="button" class="btn btn-outline-danger" (click)="deleteOperation(operatio)">Eliminar</button>
            <!--update-->
-          <button type="button" class="btn btn-primary" (click)="updateOperatio(operatio)">Update</button>
+          <button type="button" class="btn btn-primary" (click)="updateOperatio(operatio)">Actualizar</button>
         </div>
       </div>
     </div>
