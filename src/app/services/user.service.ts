@@ -7,8 +7,9 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class UserService {
-  URL_API:string = "http://localhost:3000/api/user/";
-
+  
+ URL_API:string = "https://finanzapp-web.herokuapp.com/api/user/";
+ // URL_API:string = "http://localhost:3000/api/user/";
   constructor(private _http:HttpClient) {
 
   }

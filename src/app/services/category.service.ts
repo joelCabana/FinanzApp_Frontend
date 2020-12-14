@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class CategoryService {
 
-  URL_API:string = "http://localhost:3000/api/category/";
+  URL_API:string = "https://finanzapp-web.herokuapp.com/api/category/";
+  //URL_API:string = "http://localhost:3000/api/category/";
 
   constructor(private _http:HttpClient) { 
     

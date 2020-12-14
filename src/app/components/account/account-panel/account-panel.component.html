@@ -18,11 +18,20 @@
                   <button class="btn btn-primary-outline ml-4" data-toggle="modal" data-target="#DepositAndWithdraw" (click)="isDeposit = false">Retirar</button>
               </div>
           </div>
+          <div class="row mt-2">
+            <!--operations-->
+              <div class="col-12 d-flex justify-content-center">
+                  <!--Deposit -->
+                  <label for="" class="">+{{totaldeposit  | currency:'USD'}}</label>
+                   <!--Withdraw -->
+                   <label for="" class="ml-5">-{{totalWithdraw  | currency:'USD'}}</label>
+              </div>
+          </div>
       </div>
   </div>
   <!--your activity-->
   <div class="container mt-3">
-      <label class="sub-title">Tu actividad</label>
+      <h4 class="">Tu actividad</h4>
       <hr class="mt-0 mb-0">
       <!--filter form-->
       <div class="form-row">
@@ -53,9 +62,9 @@
         <h5> ¡Ups! no tienes registros.</h5>
       </div>
       <!--table Activity-->
-      <table class="table table-striped">
+      <table class="table">
           <tbody>
-            <tr *ngFor="let item of filterList.reverse().slice(0,5)">
+            <tr *ngFor="let item of filterList.slice(0,10)">
               <th scope="row" *ngIf="item.type == type[0]"><i class="material-icons">call_received</i></th>
               <th scope="row" *ngIf="item.type ==  type[1]"><i class="material-icons">call_made</i></th>
               <td>
@@ -118,7 +127,7 @@
         <!--button action-->
         <div class="modal-footer">
           <!--close-->
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="reset()">Cancelar</button>
           <!--Deposit-->
           <button type="button" class="btn btn-primary"  [disabled]="generalForm.invalid"  *ngIf="isDeposit" (click)="depositOrwithdraw(0)">Depositar</button>
            <!--Withdraw-->

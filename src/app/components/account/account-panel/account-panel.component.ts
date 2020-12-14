@@ -26,10 +26,11 @@ export class AccountPanelComponent implements OnInit {
  idSelected:string;
  category:string;
 
- filterCategory:string ="all";
- filterType:string = "all";
- filterList:Array<Operatio>;
  ALL:string = "all";
+ filterCategory:string =this.ALL;
+ filterType:string = this.ALL;
+ filterList:Array<Operatio>;
+
 
  totaldeposit:number;
  totalWithdraw:number;
@@ -45,14 +46,12 @@ export class AccountPanelComponent implements OnInit {
       }
   
     this.user = new User();
-    this.category ="all";
+    this.category =this.ALL;
     this.isDeposit = true;
     this.isEdit = false;
     this.loading = true;
     this.getUserById();
     this.getCategories();
-
-   
    }
 
    
@@ -65,6 +64,7 @@ export class AccountPanelComponent implements OnInit {
       (result) => {
         this.user = result;
         this.filterList = this.user.operation;
+        this.sortListbyDate();
         this.totalAccount();
         this.loading = false;
       },
@@ -106,11 +106,11 @@ export class AccountPanelComponent implements OnInit {
       (result)=>{
           this.getUserById();
           this.deleteFilter();
-          this._toastr.success("the operation was successful.","Success!");
+          this._toastr.success("La operación fue exitosa.","Exito!");
       },
       (error)=>{
         console.log(error);
-        this._toastr.error("the operation was not performed","Error!");
+        this._toastr.error("la operación no se realizó","Error!");
       }
     );
     this.operatio = new Operatio();
@@ -129,7 +129,7 @@ export class AccountPanelComponent implements OnInit {
 
   reset(){
     this.operatio = new Operatio();
-    this.category = "all";
+    this.category = this.ALL;
   }
 
   selectOperatio(item){
@@ -179,10 +179,19 @@ export class AccountPanelComponent implements OnInit {
   }
 
   deleteFilter(){
-    this.filterType ="all";
-    this.filterCategory ="all";
+    this.filterType =this.ALL;
+    this.filterCategory =this.ALL;
     this.filterList = new Array<Operatio>();
     this.filterList = this.user.operation;
+    this.sortListbyDate();
+  }
+
+  sortListbyDate(){
+    this.filterList.sort(function(a, b) {
+      if (a.date > b.date) return -1;
+      if (a.date < b.date) return 1;
+      return 0;
+   });
   }
 
 }
